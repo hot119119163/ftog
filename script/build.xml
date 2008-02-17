@@ -1,0 +1,19 @@
+<project basedir=".." name="Flex transfer object generator" default="build">
+	<target name="build">
+		<javac srcdir="src"
+         destdir="classes"
+         classpath="lib/log4j.jar"
+         debug="on"/>
+
+		<copy todir="classes" file="conf/log4j.xml" />
+		
+		<jar destfile="build/ftog.jar">
+			<fileset dir="classes" >
+					<include name="**/*.class"/>
+					<include name="log4j.xml"/>
+			</fileset>					
+		</jar>
+	</target>
+	
+
+</project>

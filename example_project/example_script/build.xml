@@ -1,0 +1,14 @@
+<project basedir=".." name="Amusement park project" default="flexgen">
+	<target name="ant_def">
+	    <taskdef name="ftog" 
+	             classname="ftog.ant.FTOGTask"	    	
+	             classpath="lib/ftog.jar;../lib/log4j.jar"
+	    />
+	</target>	
+	
+	<target name="flexgen" depends="ant_def">
+		<ftog todir="generated_classes">
+			<fileset dir="dto_src" excludes="**/*Test.java" includes="**/*.java" />
+		</ftog>
+	</target>
+</project>
