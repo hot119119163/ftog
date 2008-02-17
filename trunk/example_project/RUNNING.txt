@@ -1,0 +1,18 @@
+To run this example project:
+----------------------------
+Make sure you have ant installed and in your path. Help with ant can be found 
+at: http://ant.apache.org. Place yourself under the "generator_script"-folder.
+Run ant. Now the java DTO classes under dto_src will be translated to actionscript
+and stored under "generatedClasses".
+
+Every time the generator is run the actionscript classes is regenerated. It is therefore a bad idea to add business methods to the generated classes. A good
+design is to let your DTOs be just that, i.e. containers of data with no business
+logic in them neither on java-side nor on actionscript-side. Note also that the
+generator does not write actionscript classes which does not seem to be DTOs. The
+criteria to qualify as a DTO is that the resulting actionscript class have at least
+one property or that is a subclass.
+
+Known issues:
+-------------
+Mixing arrays and generics does not work well. For example the following property 
+would be translated wrong: "public ArrayList<Rollercoaster[]> rollerMatrix;"
