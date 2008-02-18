@@ -64,6 +64,7 @@ the "example_project"-folder.
 Version history
 ---------------
 
-2008-01-16 First version.
+2008-02-18 "static final"-constants are now translated to "static const". Bugfix with BigInteger/BigDecimal 
 2008-02-17 Released at Google Code.
+2008-01-16 First version.
 

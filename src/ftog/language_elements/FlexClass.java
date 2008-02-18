@@ -35,6 +35,7 @@ public class FlexClass {
 	private String superClassName;
 	private String remoteClassPackageName;
 	private ArrayList properties;
+	private ArrayList constants;
 	private ArrayList imports;
 	private boolean bindable;
 	
@@ -44,6 +45,7 @@ public class FlexClass {
 	
 	public FlexClass() {
 		properties = new ArrayList();
+		constants = new ArrayList();
 		imports = new ArrayList();
 		bindable=true;
 	}
@@ -68,6 +70,10 @@ public class FlexClass {
 		properties.add(p);
 	}
 	
+	public void addConstant(Constant c) {
+		constants.add(c);
+	}
+	
 	public void addImport(String i) {
 		imports.add(i);
 	}
@@ -89,6 +95,7 @@ public class FlexClass {
 	public String toCode(FlexCodeFormatting format) {
 		this.format = format;
 		StringBuffer code = new StringBuffer();
+		addConstants(code);
 		addProperties(code);
 		addClassDeclaration(code);
 		if(imports.size()>0) {
@@ -101,7 +108,7 @@ public class FlexClass {
 	}
 	
 	public boolean seemsToBeTransferObject() {
-		return (properties.size()>0 || superClassName!=null);
+		return (properties.size()>0 || constants.size()>0 || superClassName!=null);
 	}
 	
 	public void sortProprties() {
@@ -121,6 +128,17 @@ public class FlexClass {
 		while(i.hasNext()) {
 			Property p = (Property)i.next();
 			code.append(indent(p.toFlexCode()));
+		}
+	}
+	
+	private void addConstants(StringBuffer code) {
+		indentionLevel=2;
+		Iterator i = constants.iterator();
+		while(i.hasNext()) {
+			Constant c = (Constant)i.next();
+			code.append(indent(c.toFlexCode()));
+			if(!i.hasNext())
+				addEmtyRow(code);
 		}
 	}
 	
@@ -201,7 +219,7 @@ public class FlexClass {
 		sb.insert(0, format.lineTerminator);
 	}
 	
-	private void appendEmtyRow(StringBuffer sb) {
+	private void addEmtyRow(StringBuffer sb) {
 		sb.append(format.lineTerminator);
 	}
 
