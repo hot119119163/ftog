@@ -38,6 +38,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import ftog.language_elements.Constant;
 import ftog.language_elements.FlexClass;
 import ftog.language_elements.Property;
 import ftog.visitor.BaseVisitor;
@@ -101,7 +102,7 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 		
 		String className = c.name;
 		log.info("Parsing: "+flexClass.getRemoteClassPackageName()+"."+className);
-		flexClass.setClassName(className);
+		flexClass.setClassName(converter.convertClassClass(className));
 		
 		//We are only interested in first element of extendsList since the rest
 		//only applies for interfaces.
@@ -109,7 +110,7 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 		if(c.extendsList!=null && c.extendsList.size()==1)
 			extendsClassName= c.extendsList.get(0).name; 
 		log.debug("extends ClassName:"+extendsClassName);
-		flexClass.setSuperClassName(extendsClassName);
+		flexClass.setSuperClassName(converter.convertClassClass(extendsClassName));
 		
 		super.visit(c, null);
 	}
@@ -121,6 +122,11 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
      	if(!accessable(modifiers))
     	   return;
     		   
+   	   if(ModifierSet.isStatic(modifiers) && ModifierSet.isFinal(modifiers)) {
+   		   addConstant(f);
+   		   return;
+   	   }
+   	   
     	List<VariableDeclarator> variables = f.variables;
     	Iterator<VariableDeclarator> it = variables.iterator();
     	while(it.hasNext()) {
@@ -135,6 +141,21 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
     	}
     }
 
+    public void addConstant(FieldDeclaration f) {
+//TODO:Check that constant is suitable type    	if(f.type!="String" && f.type!="int" && f.type="Integer" && )
+    	List<VariableDeclarator> variables = f.variables;
+    	Iterator<VariableDeclarator> it = variables.iterator();
+    	while(it.hasNext()) {
+    	  	Constant c = new Constant();
+    	    VariableDeclarator variable = it.next();
+        	c.name = variable.id.name;
+        	converter.convert(c, f);
+        	c.value = variable.init;
+        	log.debug("Adding constant property:"+c.name);
+        	flexClass.addConstant(c);   
+    	}
+    }
+    
     public void visit(ConstructorDeclaration c, Object o) {
     	log.warn("Constructor found in Java source!");
     }
@@ -181,8 +202,6 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
    
     
    private boolean accessable(int modifiers) {
-   	   if(ModifierSet.isStatic(modifiers))
-   		   return false;
    	   if(ModifierSet.isPrivate(modifiers))
    		   return false;
    	   if(ModifierSet.isTransient(modifiers))

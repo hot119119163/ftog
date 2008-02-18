@@ -28,6 +28,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 
+import ftog.language_elements.Constant;
 import ftog.language_elements.Property;
 
 
@@ -49,12 +50,16 @@ public class JavaToFlexClassConverter {
 		convertionTable.put("double", "Number");
 		convertionTable.put("Double", "Number");
 		convertionTable.put("long", "Number");
-		convertionTable.put("BigDecimal", "Number"); //I don't know if this works
 		
         convertionTable.put("Integer", "int");
         convertionTable.put("int", "int");
         
         convertionTable.put("String", "String");
+        convertionTable.put("char", "String");
+        convertionTable.put("Char", "String");
+		convertionTable.put("BigDecimal", "String");
+		convertionTable.put("BigInteger", "String");
+        
         
 		convertionTable.put("Collection", "ArrayCollection");
 		convertionTable.put("Set", "ArrayCollection");
@@ -62,6 +67,8 @@ public class JavaToFlexClassConverter {
 		convertionTable.put("ArrayList", "ArrayCollection");
 		convertionTable.put("HashSet", "ArrayCollection");
 		convertionTable.put("Map", "Object");
+		convertionTable.put("HashMap", "Object");
+		convertionTable.put("Exception", "Error");
 	}
 	
 	//Getter
@@ -85,6 +92,12 @@ public class JavaToFlexClassConverter {
 		p.flexClass=convertClassName(p);
 	}
 	
+	//Constant
+	public void convert(Constant c, FieldDeclaration f) {
+		c.javaClass=f.type.toString();
+		c.flexClass=convertClassName(c);
+	}
+	
 	private String convertClassName(Property p) {
 		if(p.arrayCount>0) {
             String returnString = "Array";
@@ -101,6 +114,14 @@ public class JavaToFlexClassConverter {
 			return flexClassName;
 		
 		return p.javaClass;
+	}
+	
+	public String convertClassClass(String name) {
+		String flexClass =  (String)convertionTable.get(name);
+		if(flexClass!=null)
+			return flexClass;
+		
+		return name;
 	}
 	
 	private void findChildTypes(Property p, int idArrayCount) {
