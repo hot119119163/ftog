@@ -32,6 +32,7 @@ import japa.parser.ast.visitor.VoidVisitor;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 	private HashMap getters;
 	private HashMap setters;
 	private JavaToFlexClassConverter converter;
+	private HashSet classIgnoreList;
 
 	private FlexClass flexClass;
 	
@@ -85,6 +87,8 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 		if("java.math.BigDecimal".equals(nv.getName()))
 			return;
 		if("java.io.Serializable".equals(nv.getName()))
+			return;
+		if(classIgnoreList.contains(nv.getName()))
 			return;
 		if(nv.getName().startsWith("java.util.")) {
 			if(!nv.getName().endsWith("Date"))
@@ -243,5 +247,13 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 	   log.debug("returning:"+name);
 	   return name;
    }
+
+public HashSet getClassIgnoreList() {
+	return classIgnoreList;
+}
+
+public void setClassIgnoreList(HashSet classIgnoreList) {
+	this.classIgnoreList = classIgnoreList;
+}
 
 }

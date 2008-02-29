@@ -87,6 +87,11 @@ public class FTOGTask extends Task{
 		 log.debug("Setting dir to:"+dir);
 	 }
 	 
+	 public void setClassignorelist(String commaseparatedClassNames) {
+		 generator.setClassIgnoreList(commaseparatedClassNames);
+		 log.debug("Igonoring classes:"+commaseparatedClassNames);
+	 }
+	 
 	 public void addFileset(FileSet in) {
 		 javaFilesets.add(in);
 	 }
