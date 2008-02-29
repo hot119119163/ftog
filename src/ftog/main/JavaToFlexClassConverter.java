@@ -53,6 +53,8 @@ public class JavaToFlexClassConverter {
 		
         convertionTable.put("Integer", "int");
         convertionTable.put("int", "int");
+        convertionTable.put("Short", "int");
+        convertionTable.put("short", "int");
         
         convertionTable.put("String", "String");
         convertionTable.put("char", "String");
