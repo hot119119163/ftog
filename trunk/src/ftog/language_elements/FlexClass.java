@@ -203,7 +203,9 @@ public class FlexClass {
 		code.append(indent("}"));
 	}
 
+	private void addToString(StringBuffer code) {
 
+	}
 	
 	private String indent(String in) {
 		StringBuffer sb = new StringBuffer();
