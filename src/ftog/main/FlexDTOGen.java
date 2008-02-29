@@ -34,7 +34,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,10 +53,12 @@ public class FlexDTOGen {
 	private JavaParser parser;
 	private ClassFileUtils cfu;
 	private File destDir;
+	private HashSet ignoreList;
 	
 	public FlexDTOGen() {
 		log = Logger.getLogger(FlexDTOGen.class);
 		cfu = new ClassFileUtils();
+		ignoreList = new HashSet();
 	}
 	
 	public void processJavaFiles(Collection files) throws ParseException, IOException {
@@ -78,6 +82,7 @@ public class FlexDTOGen {
 			InputStream is = (InputStream)it.next();
 			
 			ClassVisitor cv = new ClassVisitor();
+			cv.setClassIgnoreList(ignoreList);
 			processJavaFile(is, cv);
 			
 			FlexClass fc = cv.getFlexClass();
@@ -108,6 +113,12 @@ public class FlexDTOGen {
 
 	public void setDestDir(File destDir) {
 		cfu.setDestDir(destDir);
+	}
+	
+	public void setClassIgnoreList(String commaSeparated) {
+		StringTokenizer st = new StringTokenizer(commaSeparated, ",");
+		while(st.hasMoreTokens())
+			ignoreList.add(st.nextToken());
 	}
 	
 }
