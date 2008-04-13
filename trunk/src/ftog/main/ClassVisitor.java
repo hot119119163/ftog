@@ -27,15 +27,12 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.VariableDeclarator;
-import japa.parser.ast.visitor.DumpVisitor;
 import japa.parser.ast.visitor.VoidVisitor;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
 
 import org.apache.log4j.Logger;
 
@@ -105,7 +102,14 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 			return;
 		
 		String className = c.name;
-		log.info("Parsing: "+flexClass.getRemoteClassPackageName()+"."+className);
+		String fullName = flexClass.getRemoteClassPackageName()+"."+className;
+		if(classIgnoreList.contains(fullName)) {
+			log.info("Ignoring: "+fullName);
+			return;
+		}
+		else
+			log.info("Parsing: "+fullName);
+		
 		flexClass.setClassName(converter.convertClassClass(className));
 		
 		//We are only interested in first element of extendsList since the rest
