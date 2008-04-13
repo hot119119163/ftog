@@ -20,8 +20,10 @@
 
 This program is built on Júlio Vilmar Gesser's excellent Java parser which is 
 released under LGPLv3. Included in this distribution is Log4j which is released
-under the Apache License 2.0. Copies of the licences are included under the
-licenses folder.   
+under the Apache License 2.0. Copies of the licenses are included under the
+"example_project/licenses"-folder.   
+
+This program with its source can be downloaded from: http://ftog.googlecode.com
 
 Don't hesitate to contact me, using the above email, if you have questions, 
 bugs to report or you need help with your Flex-project. 
@@ -32,15 +34,17 @@ in the included "example_project"-folder.
 
 Source distribution:
 --------------------
+example_project/licenses/	- The related licenses for this distribution.
 build/    	- Placeholder for built binaries.
 classes/  	- Placeholder for .class-files
 conf/    	- Log4j-configuration.
-example_project/- An example project that uses the generator.
 lib/     	- Log4j-libraries needed for compilation and execution.
-licenses/	- The related licenses for this distribution.
 script/  	- Ant build script for building the program.
 src/ftog 	- Java source for the program.
 src/japa 	- Source for Gesser's Java parser.
+
+example_project/- An example project that uses the generator.
+
 .settings/	
 .classpath
 .project	- Eclipse project files
@@ -63,7 +67,8 @@ the "example_project"-folder.
 
 Version history
 ---------------
-
+2008-04-13 Corrected som errors in texts.
+2008-02-29 New ant attribute "classignorelist" for the ftog-task implemented.
 2008-02-18 "static final"-constants are now translated to "static const". Bugfix with BigInteger/BigDecimal 
 2008-02-17 Released at Google Code.
 2008-01-16 First version.

@@ -2,8 +2,7 @@
 	<target name="ant_def">
 	    <taskdef name="ftog" 
 	             classname="ftog.ant.FTOGTask"	    	
-	             classpath="lib/ftog.jar;../lib/log4j.jar"
-	    />
+	             classpath="lib/ftog.jar;../lib/log4j.jar"/>
 	</target>	
 	
 	<target name="flexgen" depends="ant_def">
