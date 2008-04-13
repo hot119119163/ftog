@@ -1,3 +1,31 @@
++-------------------------------------------------------------------------------+
+| Flex Data Transfer Object Generator.                                   	|
++-------------------------------------------------------------------------------+
+|  Copyright (C) 2008 Mattias Ånstrand                                  	|
+|  mattias@loveone.se                                                           |
++-------------------------------------------------------------------------------+
+|  This program is free software: you can redistribute it and/or modify         |
+|  it under the terms of the GNU Lesser General Public License as published by  |
+|  the Free Software Foundation, either version 3 of the License, or            |
+|  (at your option) any later version.                                          |
+|                                                                               |
+|  This program is distributed in the hope that it will be useful,              |
+|  but WITHOUT ANY WARRANTY; without even the implied warranty of               |
+|  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                |
+|  GNU Lesser General Public License for more details.                          |
+|                                                                               |
+|  You should have received a copy of the GNU Lesser General Public License     |
+|  along with this program.  If not, see <http://www.gnu.org/licenses/>.        |
++-------------------------------------------------------------------------------+ 
+
+This program is built on Júlio Vilmar Gesser's excellent Java parser which is 
+released under LGPLv3. Included in this distribution is Log4j which is released
+under the Apache License 2.0. Copies of the licenses are included under the
+"licenses"-folder.  
+
+This is a binary build of the 2008-04-13 version. The full source can be downloaded from http://ftog.googlecode.com
+
+
 To run this example project:
 ----------------------------
 Make sure you have ant installed and in your path. Help with ant can be found 
@@ -5,12 +33,13 @@ at: http://ant.apache.org. Place yourself under the "generator_script"-folder.
 Run ant. Now the java DTO classes under dto_src will be translated to actionscript
 and stored under "generatedClasses".
 
-Every time the generator is run the actionscript classes is regenerated. It is therefore a bad idea to add business methods to the generated classes. A good
+Every time the generator is run the actionscript classes is regenerated. It is 
+therefore a bad idea to add business methods to the generated classes. A good
 design is to let your DTOs be just that, i.e. containers of data with no business
 logic in them neither on java-side nor on actionscript-side. Note also that the
 generator does not write actionscript classes which does not seem to be DTOs. The
 criteria to qualify as a DTO is that the resulting actionscript class have at least
-one property or that is a subclass.
+one property or that it is a subclass to something else than Object.
 
 Known issues:
 -------------
