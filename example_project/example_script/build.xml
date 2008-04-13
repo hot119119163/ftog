@@ -6,7 +6,7 @@
 	</target>	
 	
 	<target name="flexgen" depends="ant_def">
-		<ftog todir="generated_classes">
+		<ftog todir="generated_classes" classignorelist="example.dto.NotAmusing">
 			<fileset dir="dto_src" excludes="**/*Test.java" includes="**/*.java" />
 		</ftog>
 	</target>
