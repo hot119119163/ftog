@@ -7,12 +7,23 @@
 
 		<copy todir="classes" file="conf/log4j.xml" />
 		
-		<jar destfile="build/ftog.jar">
+		<jar destfile="example_project/lib/ftog.jar">
 			<fileset dir="classes" >
 					<include name="**/*.class"/>
 					<include name="log4j.xml"/>
 			</fileset>					
 		</jar>
+	</target>
+	
+	<target name="deploySampleProject">
+		<mkdir dir="../ftog_example2"/>
+		<copy todir="../ftog_example2">
+			<fileset dir="example_project">
+				<include name="**/*"/>
+				<exclude name="**/.svn/"/>
+				<exclude name="**/example/"/>
+			</fileset>
+		</copy>
 	</target>
 	
 

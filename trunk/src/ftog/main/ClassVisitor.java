@@ -26,6 +26,7 @@ import japa.parser.ast.body.ConstructorDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.ModifierSet;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.visitor.VoidVisitor;
 
@@ -38,6 +39,7 @@ import org.apache.log4j.Logger;
 
 import ftog.language_elements.Constant;
 import ftog.language_elements.FlexClass;
+import ftog.language_elements.Import;
 import ftog.language_elements.Property;
 import ftog.visitor.BaseVisitor;
 
@@ -76,25 +78,27 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 	public void visit(ImportDeclaration n, Object o) {
 		NameVisitor nv = new NameVisitor();
 		nv.visit(n.name, null);
-		log.debug("import:"+nv.getName());
+		String name = nv.getName() + (n.isAsterisk ? ".*" : "");
+		log.debug("import:"+name);
 
 		//This is a QUAD solution
-		if("java.math.BigInteger".equals(nv.getName()))
+		if("java.math.BigInteger".equals(name))
 			return;
-		if("java.math.BigDecimal".equals(nv.getName()))
+		if("java.math.BigDecimal".equals(name))
 			return;
-		if("java.io.Serializable".equals(nv.getName()))
+		if("java.io.Serializable".equals(name))
 			return;
-		if(classIgnoreList.contains(nv.getName()))
+		if(classIgnoreList.contains(name))
 			return;
-		if(nv.getName().startsWith("java.util.")) {
-			if(!nv.getName().endsWith("Date"))
-				flexClass.addImport("mx.collections.ArrayCollection");
+		if(name.startsWith("java.util.")) {
+			if(!name.endsWith("Date"))
+				flexClass.addImport(new Import("mx.collections.ArrayCollection"));
 			
 			return;
 		}
 		
-		flexClass.addImport(nv.getName());
+
+		flexClass.addImport(new Import(name));
 	}
 	
 	public void visit(ClassOrInterfaceDeclaration c, Object o) {
@@ -142,6 +146,8 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
     	    VariableDeclarator variable = it.next();
         	p.name = variable.id.name;
         	p.arrayCount = variable.id.arrayCount;
+        	if(variable.init!=null)
+        		p.initValue=variable.init.toString();
         	converter.convert(p, f);
         	log.debug("field type:"+p.flexClass);
         	log.debug("Adding property:"+p.name);
@@ -159,13 +165,33 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
         	c.name = variable.id.name;
         	converter.convert(c, f);
         	c.value = variable.init;
+        	//Remove number constant suffix
+        	if(isNumberClass(c.flexClass))
+        		c.value=c.value.toString().replaceAll("[lfdLFD]", "");
+        	
         	log.debug("Adding constant property:"+c.name);
         	flexClass.addConstant(c);   
     	}
     }
     
+    private boolean isNumberClass(String s) {
+    	return "Number".equals(s) || "int".equals(s) || "uint".equals(s);
+    }
+    
     public void visit(ConstructorDeclaration c, Object o) {
-    	log.warn("Constructor found in Java source!");
+    	if(c.parameters==null)
+    		return;
+    	
+/*    Jonas Mode 
+ *  	Iterator it = c.parameters.iterator();
+    	while(it.hasNext()) {
+    		Parameter p = (Parameter) it.next();
+    		Property prop = new Property();
+    		prop.javaClass=p.type.toString();
+    		prop.name=p.id.name;
+    		prop.flexClass=converter.convertClassClass(prop.javaClass);
+    		flexClass.addContructorParameter(prop);
+    	}*/
     }
     
     public void visit(MethodDeclaration m, Object o) {

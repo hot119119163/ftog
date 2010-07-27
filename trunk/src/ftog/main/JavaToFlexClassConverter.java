@@ -50,24 +50,24 @@ public class JavaToFlexClassConverter {
 		convertionTable.put("double", "Number");
 		convertionTable.put("Double", "Number");
 		convertionTable.put("long", "Number");
+		convertionTable.put("Long", "Number");
 		
-        convertionTable.put("Integer", "int");
         convertionTable.put("int", "int");
-        convertionTable.put("Short", "int");
+        convertionTable.put("Integer", "int");
         convertionTable.put("short", "int");
+        convertionTable.put("Short", "int");
         
         convertionTable.put("String", "String");
         convertionTable.put("char", "String");
         convertionTable.put("Char", "String");
 		convertionTable.put("BigDecimal", "String");
-		convertionTable.put("BigInteger", "String");
-        
+		convertionTable.put("BigInteger", "String");        
         
 		convertionTable.put("Collection", "ArrayCollection");
 		convertionTable.put("Set", "ArrayCollection");
+		convertionTable.put("HashSet", "ArrayCollection");
 		convertionTable.put("List", "ArrayCollection");
 		convertionTable.put("ArrayList", "ArrayCollection");
-		convertionTable.put("HashSet", "ArrayCollection");
 		convertionTable.put("Map", "Object");
 		convertionTable.put("HashMap", "Object");
 		convertionTable.put("Exception", "Error");
@@ -103,13 +103,10 @@ public class JavaToFlexClassConverter {
 	private String convertClassName(Property p) {
 		if(p.arrayCount>0) {
             String returnString = "Array";
-            //Check if we have a user defined class
-            if(convertionTable.get(p.childType) != null){
-            	p.addReferenceToChildType=false;
-            }
+   
             return returnString;
         }
-		
+
 		String flexClassName = (String)convertionTable.get(p.javaClass);	
 		
 		if(flexClassName!=null)
@@ -136,19 +133,23 @@ public class JavaToFlexClassConverter {
 			return;
 
 		p.arrayComment=typeName;
-		log.debug("Generics:"+genericTypes);
+		log.debug("Generics:"+Arrays.toString(genericTypes));
 		p.arrayCount=typeArrayCount+idArrayCount;
 		log.debug("type-ArrayCount:"+typeArrayCount);
 		log.debug("Total array count:"+p.arrayCount);
 		if(generic>0) {
-			p.childType=genericTypes[genericTypes.length-1];
+			p.childType=genericTypes[genericTypes.length-1].trim();
 			p.javaClass=genericTypes[0];
 		}
 		else
 			p.childType=typeBrackets[0];
 		
 		String childFlexType=(String)convertionTable.get(p.childType);
-		if(childFlexType!=null)
+		if(childFlexType!=null) {
 			p.childType=childFlexType;
+			//if the class was in the convertionTable it doesn't 
+			//need to be included as a child reference.
+			p.addReferenceToChildType=false;
+	    }
 	}
 }

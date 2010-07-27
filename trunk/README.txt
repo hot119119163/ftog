@@ -35,11 +35,11 @@ in the included "example_project"-folder.
 Source distribution:
 --------------------
 example_project/licenses/	- The related licenses for this distribution.
-build/    	- Placeholder for built binaries.
+example_project/lib    	- The built jar (ftog.jar) goes here. The Log4j-libraries needed 
+							for compilation and execution is also stored here.
 classes/  	- Placeholder for .class-files
 conf/    	- Log4j-configuration.
-lib/     	- Log4j-libraries needed for compilation and execution.
-script/  	- Ant build script for building the program.
+script/  	- Ant build script for building Flex DTO Generator (ftog).
 src/ftog 	- Java source for the program.
 src/japa 	- Source for Gesser's Java parser.
 
@@ -60,14 +60,15 @@ Building the program:
 ---------------------
 Make sure you have ant installed and in your path. Help with that can be found 
 at: http://ant.apache.org. Place yourself in the "script"-folder and run ant. 
-This will create a "ftog.jar"-file under the "build"-folder. That's it! 
-For instructions how to use the program, please read the "running.txt"-file under 
+This will create a "ftog.jar"-file under the "example-project/lib"-folder. That's it! 
+For instructions how to use the program, please read the "RUNNING.txt"-file under 
 the "example_project"-folder.  
 
 
 Version history
 ---------------
-2008-04-13 Corrected som errors in texts.
+2010-07-27 Unrelated classes are now pruned from the generated imports. Increased logging. 
+2008-04-13 Corrected some errors in texts.
 2008-02-29 New ant attribute "classignorelist" for the ftog-task implemented.
 2008-02-18 "static final"-constants are now translated to "static const". Bugfix with BigInteger/BigDecimal 
 2008-02-17 Released at Google Code.

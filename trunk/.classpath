@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="src" path="example_project/dto_src"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="example_project/lib/log4j.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
