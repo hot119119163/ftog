@@ -68,6 +68,7 @@ the "example_project"-folder.
 Version history
 ---------------
 2010-07-27 Unrelated classes are now pruned from the generated imports. Increased logging. 
+			Some support for constructor initializers. Bug fixes.
 2008-04-13 Corrected some errors in texts.
 2008-02-29 New ant attribute "classignorelist" for the ftog-task implemented.
 2008-02-18 "static final"-constants are now translated to "static const". Bugfix with BigInteger/BigDecimal 
