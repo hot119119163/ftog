@@ -191,7 +191,7 @@ public class FlexClass {
  	
  	private void addConstructor(StringBuffer code) {
  		//if we don't have any constructor parameters
- 		//default constructor id fine...
+ 		//default constructor is fine...
  		if(constructorParameters.size()==0)
  			return;
  		StringBuffer func = new StringBuffer();
@@ -235,7 +235,7 @@ public class FlexClass {
  		Iterator it = constructorParameters.iterator();
  		while(it.hasNext()) {
  			Property p = (Property) it.next();
- 	 	 	if(properties.contains(p)) {
+ 	 	 	//if(properties.contains(p)) {
  	 	 		StringBuffer sb = new StringBuffer();
  	 	 		sb.append("this.");
  	 	 		sb.append(p.name);
@@ -243,7 +243,7 @@ public class FlexClass {
  	 	 		sb.append(p.name);
  	 	 		sb.append(';');
  	 	 		code.append(indent(sb.toString()));
- 	 	 	}
+ 	 	 	//}
  		}
  	}
  	

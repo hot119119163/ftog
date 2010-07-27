@@ -38,6 +38,9 @@
       <priority value="INFO"/>
    </category>
 
+   <category name="ftog">
+      <priority value="DEBUG"/>
+   </category>
    
    <!-- ======================= -->
    <!-- Setup the Root category -->

@@ -2,11 +2,9 @@
 	<target name="build">
 		<javac srcdir="src"
          destdir="classes"
-         classpath="lib/log4j.jar"
+         classpath="example_project/lib/log4j.jar"
          debug="on"/>
 
-		<copy todir="classes" file="conf/log4j.xml" />
-		
 		<jar destfile="example_project/lib/ftog.jar">
 			<fileset dir="classes" >
 					<include name="**/*.class"/>
@@ -15,15 +13,21 @@
 		</jar>
 	</target>
 	
+	<target name="clean">
+		<delete dir="classes/"></delete>
+	</target>
+	
 	<target name="deploySampleProject">
-		<mkdir dir="../ftog_example2"/>
-		<copy todir="../ftog_example2">
+		<mkdir dir="../ftog_example"/>
+		<copy todir="../ftog_example">
 			<fileset dir="example_project">
 				<include name="**/*"/>
 				<exclude name="**/.svn/"/>
-				<exclude name="**/example/"/>
+				<exclude name="generated_classes/example/"/>
+				<exclude name="eclipse_project_files.zip"/>
 			</fileset>
 		</copy>
+		<unzip src="example_project/eclipse_project_files.zip" dest="../ftog_example/"></unzip>
 	</target>
 	
 
