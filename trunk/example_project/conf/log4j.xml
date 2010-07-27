@@ -39,7 +39,7 @@
    </category>
 
    <category name="ftog">
-      <priority value="DEBUG"/>
+      <priority value="INFO"/>
    </category>
    
    <!-- ======================= -->
