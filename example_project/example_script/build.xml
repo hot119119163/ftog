@@ -3,7 +3,7 @@
 	
 	<target name="ant_def">
 	    <taskdef name="ftog"
-	    		 classpath="lib/ftog.jar;lib/log4j.jar;../conf"
+	    		 classpath="lib/ftog.jar;lib/log4j.jar;conf"
 	             classname="ftog.ant.FTOGTask"	/>    	
 	</target>	
 	
