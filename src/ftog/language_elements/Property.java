@@ -33,6 +33,7 @@ public class Property implements Comparable {
 	public String flexClass;
 	public String childType;
 	public String arrayComment;
+	public String initValue;
 	public int arrayCount;
 	public boolean addReferenceToChildType=true;
 	
@@ -43,6 +44,9 @@ public class Property implements Comparable {
 	public String toFlexCode() {
 		StringBuffer sb = new StringBuffer();
 		sb.append((isPrivate ? "private " : "public ") +"var "+name+":"+flexClass);
+		if(initValue!=null)
+			sb.append('=').append(initValue);
+		
 		if(arrayComment!=null) {
 			sb.append("; //"+arrayComment);
 			if(addReferenceToChildType && childType!=null) {
@@ -58,7 +62,11 @@ public class Property implements Comparable {
 		
 		return sb.toString();
 	}
-	public boolean equals(Property p) {
+	public boolean equals(Object o) {
+		if(!(o instanceof Property))
+			return false;
+		
+		Property p = (Property) o;
 		boolean e = true;
 		e = (name==null ? p.name==null : name.equals(p.name)); 
 		if(e==false) return e;
@@ -76,5 +84,16 @@ public class Property implements Comparable {
 	public int compareTo(Object otherProperty) {
 		Property p = (Property) otherProperty;
 		return name.compareTo(p.name);
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("name:").append(name).append('\n');
+		sb.append("javaClass:").append(javaClass).append('\n');
+		sb.append("flexClass:").append(flexClass).append('\n');
+		sb.append("childType:").append(childType).append('\n');
+		sb.append("arrayCount:").append(arrayCount).append('\n');
+
+		return sb.toString();
 	}
 }

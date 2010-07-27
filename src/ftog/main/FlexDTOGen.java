@@ -24,22 +24,16 @@ import japa.parser.ParseException;
 import japa.parser.ast.Node;
 import japa.parser.ast.visitor.VoidVisitor;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 import org.apache.log4j.Logger;
 
@@ -53,6 +47,7 @@ public class FlexDTOGen {
 	private JavaParser parser;
 	private ClassFileUtils cfu;
 	private File destDir;
+	private String fromDir;
 	private HashSet ignoreList;
 	
 	public FlexDTOGen() {
@@ -86,6 +81,7 @@ public class FlexDTOGen {
 			processJavaFile(is, cv);
 			
 			FlexClass fc = cv.getFlexClass();
+			fc.expandImports(fromDir);
 			cv=null;
 			fc.sortProprties();
 			log.debug("AS:\n"+fc.toCode());
@@ -113,6 +109,15 @@ public class FlexDTOGen {
 
 	public void setDestDir(File destDir) {
 		cfu.setDestDir(destDir);
+	}
+	
+
+	public String getFromDir() {
+		return fromDir;
+	}
+
+	public void setFromDir(String fromDir) {
+		this.fromDir=fromDir;
 	}
 	
 	public void setClassIgnoreList(String commaSeparated) {

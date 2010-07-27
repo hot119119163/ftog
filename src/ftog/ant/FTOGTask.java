@@ -57,6 +57,8 @@ public class FTOGTask extends Task{
 			 FileSet fs = (FileSet)javaFilesets.get(i);
 			 DirectoryScanner ds = fs.getDirectoryScanner(getProject());
 			 File dir = fs.getDir(getProject());
+			 log.debug("DIR:"+dir);
+			 generator.setFromDir(dir.toString());
 			 String[] srcs = ds.getIncludedFiles();
 			 for (int j = 0; j < srcs.length; j++) {
 				 files.add(dir+File.separator+srcs[j]);
