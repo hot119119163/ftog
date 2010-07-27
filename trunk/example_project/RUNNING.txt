@@ -1,7 +1,7 @@
 +-------------------------------------------------------------------------------+
 | Flex Data Transfer Object Generator.                                   	|
 +-------------------------------------------------------------------------------+
-|  Copyright (C) 2008 Mattias Ånstrand                                  	|
+|  Copyright (C) 2008 Mattias Ã…nstrand                                  	|
 |  mattias@loveone.se                                                           |
 +-------------------------------------------------------------------------------+
 |  This program is free software: you can redistribute it and/or modify         |
@@ -18,7 +18,7 @@
 |  along with this program.  If not, see <http://www.gnu.org/licenses/>.        |
 +-------------------------------------------------------------------------------+ 
 
-This program is built on Júlio Vilmar Gesser's excellent Java parser which is 
+This program is built on JÃºlio Vilmar Gesser's excellent Java parser which is 
 released under LGPLv3. Included in this distribution is Log4j which is released
 under the Apache License 2.0. Copies of the licenses are included under the
 "licenses"-folder.  
