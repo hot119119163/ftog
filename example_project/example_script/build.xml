@@ -1,8 +1,10 @@
 <project basedir=".." name="Amusement park project" default="flexgen">
+
+	
 	<target name="ant_def">
-	    <taskdef name="ftog" 
-	             classname="ftog.ant.FTOGTask"	    	
-	             classpath="lib/ftog.jar;../lib/log4j.jar"/>
+	    <taskdef name="ftog"
+	    		 classpath="lib/ftog.jar;lib/log4j.jar;../conf"
+	             classname="ftog.ant.FTOGTask"	/>    	
 	</target>	
 	
 	<target name="flexgen" depends="ant_def">

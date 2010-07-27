@@ -182,8 +182,8 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
     	if(c.parameters==null)
     		return;
     	
-/*    Jonas Mode 
- *  	Iterator it = c.parameters.iterator();
+ //   Jonas Mode 
+    	Iterator it = c.parameters.iterator();
     	while(it.hasNext()) {
     		Parameter p = (Parameter) it.next();
     		Property prop = new Property();
@@ -191,7 +191,7 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
     		prop.name=p.id.name;
     		prop.flexClass=converter.convertClassClass(prop.javaClass);
     		flexClass.addContructorParameter(prop);
-    	}*/
+    	}
     }
     
     public void visit(MethodDeclaration m, Object o) {
