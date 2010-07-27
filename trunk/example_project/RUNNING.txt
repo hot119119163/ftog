@@ -23,7 +23,8 @@ released under LGPLv3. Included in this distribution is Log4j which is released
 under the Apache License 2.0. Copies of the licenses are included under the
 "licenses"-folder.  
 
-This is a binary build of the 2010-07-27 version. The full source can be downloaded from http://ftog.googlecode.com
+This is a binary build of the 2010-07-27 version. 
+The full source can be downloaded from http://ftog.googlecode.com
 
 
 To run this example project:
