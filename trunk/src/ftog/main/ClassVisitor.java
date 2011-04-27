@@ -217,7 +217,8 @@ public class ClassVisitor extends BaseVisitor implements VoidVisitor<Object> {
 		 	else if(m.name.startsWith("is")) {
 			p.name = getPropertyName(m.name);
 			if("boolean".equals(m.type.toString()) || "Boolean".equals(m.type.toString())) {					   
-				p.flexClass = "boolean";
+				p.flexClass = "Boolean";
+				p.javaClass = m.type.toString();
 				log.debug("FlexClass (is-getter):"+p.flexClass);
 				getters.put(p.name, p);
 			}

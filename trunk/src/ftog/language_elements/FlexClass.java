@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import ftog.main.ClassFileUtils;
 import ftog.main.FlexCodeFormatting;
 import ftog.main.JavaFilenameFilter;
+import ftog.refactor.RefactorSingleton;
 
 
 public class FlexClass {
@@ -271,8 +272,7 @@ public class FlexClass {
 		Iterator i = imports.iterator();
 		while(i.hasNext()) {
 			Import im = (Import)i.next();
-			String s = im.getFullyQualifiedClassName();
-			code.insert(0, indent("import "+s+";"));
+			code.insert(0, indent("import "+im.getFullyQualifiedClassName()+";"));
 		}
 	}
 
@@ -357,6 +357,21 @@ public class FlexClass {
 
 	public void setRemoteClassPackageName(String remoteClassName) {
 		this.remoteClassPackageName = remoteClassName;
+	}
+	
+	public void clearConstructorParameters() {
+		constructorParameters.clear();
+	}
+	
+	public void applyRefactoring() {
+		Iterator i = imports.iterator();
+		while(i.hasNext()) {
+			Import im = (Import)i.next();
+			String s = RefactorSingleton.getInstance().applyRefactorings(im.getFullyQualifiedClassName());
+			im.addImport(s);
+		}
+
+		packageName = RefactorSingleton.getInstance().applyRefactorings(packageName);
 	}
 }
  

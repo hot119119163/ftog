@@ -37,11 +37,14 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 
 import ftog.main.FlexDTOGen;
+import ftog.refactor.NameRefactoring;
+import ftog.refactor.RefactorSingleton;
 
 public class FTOGTask extends Task{
 	
 	private ArrayList javaFilesets;	
 	private FlexDTOGen generator;
+	private String fromTo;
 	
 	private Logger log;
 	
@@ -92,6 +95,29 @@ public class FTOGTask extends Task{
 	 public void setClassignorelist(String commaseparatedClassNames) {
 		 generator.setClassIgnoreList(commaseparatedClassNames);
 		 log.debug("Igonoring classes:"+commaseparatedClassNames);
+	 } 
+	 
+	 public void setRefactorfrom(String from) {
+		 if(fromTo==null)
+			 fromTo=from;
+		 else
+			 addNameRefactoring(from, fromTo);
+	 }
+	 
+	 public void setRefactorto(String to) {
+		 if(fromTo==null)
+			 fromTo=to;
+		 else
+			 addNameRefactoring(fromTo, to);
+	 }
+	
+	 private void addNameRefactoring(String from, String to) {
+		 log.debug("Adding name refactoring!");
+		 RefactorSingleton.getInstance().addRefactoring(new NameRefactoring(from, to));
+	 }
+
+	 public void setCreateconstructor(boolean value) {
+		 generator.setCreateConstructor(value);
 	 }
 	 
 	 public void addFileset(FileSet in) {

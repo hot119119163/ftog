@@ -49,11 +49,13 @@ public class FlexDTOGen {
 	private File destDir;
 	private String fromDir;
 	private HashSet ignoreList;
+	private boolean createConstructor;
 	
 	public FlexDTOGen() {
 		log = Logger.getLogger(FlexDTOGen.class);
 		cfu = new ClassFileUtils();
 		ignoreList = new HashSet();
+		createConstructor = true;
 	}
 	
 	public void processJavaFiles(Collection files) throws ParseException, IOException {
@@ -84,6 +86,10 @@ public class FlexDTOGen {
 			fc.expandImports(fromDir);
 			cv=null;
 			fc.sortProprties();
+			if(!createConstructor)
+				fc.clearConstructorParameters();
+			
+			fc.applyRefactoring();
 			log.debug("AS:\n"+fc.toCode());
 			if(fc.seemsToBeTransferObject()) {
 				log.info("Writing: "+fc.getPackage()+"."+fc.getClassName());
@@ -124,6 +130,14 @@ public class FlexDTOGen {
 		StringTokenizer st = new StringTokenizer(commaSeparated, ",");
 		while(st.hasMoreTokens())
 			ignoreList.add(st.nextToken());
+	}
+	
+	public boolean getCreateConstructor() {
+		return createConstructor;
+	}
+	
+	public void setCreateConstructor(boolean value) {
+		createConstructor = value;
 	}
 	
 }
