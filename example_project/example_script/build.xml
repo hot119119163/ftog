@@ -8,7 +8,8 @@
 	</target>	
 	
 	<target name="flexgen" depends="ant_def">
-		<ftog todir="generated_classes" classignorelist="example.dto.NotAmusing">
+		<ftog todir="generated_classes" classignorelist="example.dto.NotAmusing" 
+			refactorfrom="example." refactorto="com.acme.example." createconstructor="true">
 			<fileset dir="dto_src" excludes="**/*Test.java" includes="**/*.java" />
 		</ftog>
 	</target>
