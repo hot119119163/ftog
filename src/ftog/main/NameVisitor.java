@@ -24,6 +24,7 @@ import japa.parser.ast.visitor.VoidVisitor;
 
 import org.apache.log4j.Logger;
 
+import ftog.refactor.RefactorSingleton;
 import ftog.visitor.BaseVisitor;
 
 public class NameVisitor extends BaseVisitor implements VoidVisitor<Object> {
@@ -40,38 +41,10 @@ public class NameVisitor extends BaseVisitor implements VoidVisitor<Object> {
 	}
 	
 	public void visit(NameExpr n, Object o) {
-		log.debug("Name:"+n.toString());
 		name.append(n.toString());
+	}
 		
-		if(from!=null && to!=null) {
-			log.debug("Old name:"+name);
-			String newName = name.toString().replaceAll(escapeDots(from), escapeDots(to));
-			log.debug("New name:"+newName);
-			name = new StringBuffer(newName);
-		}
-	}
-	
-	private String escapeDots(String in) {
-		return in.replaceAll("\\.", "\\\\.");
-	}
-	
 	public String getName() {
 		return name.toString();
-	}
-
-	public String getFrom() {
-		return from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
-	}
-
-	public String getTo() {
-		return to;
-	}
-
-	public void setTo(String to) {
-		this.to = to;
 	}
 }
