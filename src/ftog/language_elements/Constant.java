@@ -10,4 +10,8 @@ public class Constant extends Property {
 		sb.append((isPrivate ? "private " : "public ") +"static const "+name+":"+flexClass+" = "+value+";");		
 		return sb.toString();
 	}
+	
+	public String toJavascriptCode() {
+		return "this.prototype."+name+"="+value+";";
+	}
 }

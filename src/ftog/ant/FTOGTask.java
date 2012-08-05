@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Mattias Ånstrand.
+ * Copyright (C) 2008 Mattias ï¿½nstrand.
  * 
  * This file is part of Flex DTO Generator.
  *
@@ -122,5 +122,9 @@ public class FTOGTask extends Task{
 	 
 	 public void addFileset(FileSet in) {
 		 javaFilesets.add(in);
+	 }
+	 
+	 public void setGenerateJavascript(boolean generateJavascript) {
+		generator.generateJavascript(generateJavascript);
 	 }
 }
