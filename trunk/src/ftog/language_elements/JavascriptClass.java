@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2008 Mattias �nstrand.
  * 
- * This file is part of Flex DTO Generator.
+ * This file is part of Javascript DTO Generator.
  *
- * Flex DTO Generator is free software: you can redistribute it and/or modify
+ * Javascript DTO Generator is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Flex DTO Generator is distributed in the hope that it will be useful,
+ * Javascript DTO Generator is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with Flex DTO Generator.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Javascript DTO Generator.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package ftog.language_elements;
@@ -35,7 +35,7 @@ import ftog.main.JavaFilenameFilter;
 import ftog.refactor.RefactorSingleton;
 
 
-public class FlexClass implements GeneratedClass {
+public class JavascriptClass implements GeneratedClass {
 	private String packageName;
 	private String className;
 	private String superClassName;
@@ -48,12 +48,12 @@ public class FlexClass implements GeneratedClass {
 	
 	
 	private int indentionLevel;
-	private FlexCodeFormatting format;
+	private FlexCodeFormatting format = new FlexCodeFormatting();
 	
 	private Logger log;
 	
-	public FlexClass() {
-		log = Logger.getLogger(FlexClass.class);
+	public JavascriptClass() {
+		log = Logger.getLogger(JavascriptClass.class);
 		properties = new ArrayList();
 		constants = new ArrayList();
 		imports = new HashSet();
@@ -61,147 +61,79 @@ public class FlexClass implements GeneratedClass {
 		constructorParameters=new ArrayList();
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#getPackage()
-	 */
 	public String getPackage() {
 		return packageName;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#setPackage(java.lang.String)
-	 */
 	public void setPackage(String p) {
 		packageName = p;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#getClassName()
-	 */
 	public String getClassName() {
 		return className;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#setClassName(java.lang.String)
-	 */
 	public void setClassName(String c) {
 		className = c;
 	}
 
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#addProperty(ftog.language_elements.Property)
-	 */
 	public void addProperty(Property p) {
 		properties.add(p);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#addConstant(ftog.language_elements.Constant)
-	 */
 	public void addConstant(Constant c) {
 		constants.add(c);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#addImport(ftog.language_elements.Import)
-	 */
 	public void addImport(Import i) {
 		imports.add(i);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#addContructorParameter(ftog.language_elements.Property)
-	 */
 	public void addContructorParameter(Property p) {
 		constructorParameters.add(p);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#purgeUnrelatedImports()
-	 */
-	public void purgeUnrelatedImports() {
-		HashSet referencedClasses = new HashSet();
-		for(int i=0;i<properties.size();i++) {
-			Property p = (Property) properties.get(i);
-			referencedClasses.add(p.flexClass);
-			referencedClasses.add(p.childType);
-		}
-		for(int i=0;i<constants.size();i++) {
-			Constant c = (Constant) constants.get(i);
-			referencedClasses.add(c.flexClass);
-		}
-		if(superClassName!=null)
-			referencedClasses.add(superClassName);
-		
-		Iterator it = imports.iterator();
-		while(it.hasNext()) {
-			Import im = (Import) it.next();
-			if(!referencedClasses.contains(im.className))
-				it.remove();
-		}
-	}
+
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#getBindable()
-	 */
 	public boolean getBindable() {
 		return bindable;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#setBindable(boolean)
-	 */
 	public void setBindable(boolean value) {
 		bindable=value;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#toCode()
-	 */
 	public String toCode() {
 		Property.childNumber=0;
-		purgeUnrelatedImports();
 		FlexCodeFormatting format = new FlexCodeFormatting();
 		return toCode(format);
 	}
+
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#toCode(ftog.main.FlexCodeFormatting)
-	 */
 	public String toCode(FlexCodeFormatting format) {
-		this.format = format;
+	//	this.format = format;
 		StringBuffer code = new StringBuffer();
 		addConstants(code);
 		addProperties(code);
-		addConstructor(code);
+		//addConstructor(code);
 		addClassDeclaration(code);
-		if(imports.size()>0) {
+		/*if(imports.size()>0) {
 			insertEmtyRow(code);
 			addImports(code);
-		}
-		insertEmtyRow(code);
-		addPackageDeclaration(code);
+		}*/
+	//	insertEmtyRow(code);
+	//	addPackageDeclaration(code);
 		return code.toString();
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#seemsToBeTransferObject()
-	 */
 	public boolean seemsToBeTransferObject() {
 		return (properties.size()>0 || constants.size()>0 || superClassName!=null);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#sortProprties()
-	 */
 	public void sortProprties() {
 		Collections.sort(properties);
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#expandImports(java.lang.String)
-	 */
 	public void expandImports(String fromDir) {
 		Iterator it = imports.iterator();
 		while(it.hasNext()) {
@@ -231,11 +163,8 @@ public class FlexClass implements GeneratedClass {
 		}
 	}
 	
- 	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#writeToDisk(ftog.main.ClassFileUtils)
-	 */
  	public void writeToDisk(ClassFileUtils cfu) throws IOException {
-		Writer out = cfu.createDirectoriesAndOpenStream(packageName, className);
+		Writer out = cfu.createDirectoriesAndOpenStreamJS(packageName, className);
 		out.write(toCode());
 		out.flush();
 		out.close();
@@ -250,7 +179,7 @@ public class FlexClass implements GeneratedClass {
  		func.append("public function ");
  		func.append(className);
  		func.append('(');
- 		addConstructorParameters(func);
+ 		//addConstructorParameters(func);
  		func.append(") {");
  		code.append(indent(func.toString()));
  		indentionLevel++;
@@ -259,18 +188,22 @@ public class FlexClass implements GeneratedClass {
  		code.append(indent("}"));
  	}
 
- 	private void addConstructorParameters(StringBuffer code) {
+ 	public void purgeUnrelatedImports() {
+ 		
+ 	}
+ 	
+ /*	private void addConstructorParameters(StringBuffer code) {
  		Iterator it = constructorParameters.iterator();
  		while(it.hasNext()) {
  			StringBuffer initCode = new StringBuffer();
  		 	Property p = (Property) it.next();
  			initCode.append(p.name);
  			initCode.append(':');
- 			initCode.append(p.flexClass);
+ 			initCode.append(p.JavascriptClass);
  			initCode.append('=');
- 	 		if("Number".equals(p.flexClass))
+ 	 		if("Number".equals(p.JavascriptClass))
  	 			initCode.append("NaN");
- 	 		else if ("int".equals(p.flexClass) || "uint".equals(p.flexClass))
+ 	 		else if ("int".equals(p.JavascriptClass) || "uint".equals(p.JavascriptClass))
  	 			initCode.append('0');
  	 		else
  	 			initCode.append("null");
@@ -282,7 +215,7 @@ public class FlexClass implements GeneratedClass {
  	 		code.append(initCode.toString());
  		}
   	}
-
+*/
  	private void addInitializerCode(StringBuffer code) {
  		Iterator it = constructorParameters.iterator();
  		while(it.hasNext()) {
@@ -304,7 +237,7 @@ public class FlexClass implements GeneratedClass {
 		Iterator i = properties.iterator();
 		while(i.hasNext()) {
 			Property p = (Property)i.next();
-			code.append(indent(p.toFlexCode()));
+			code.append(indent(p.toJavascriptCode()));
 		}
 	}
 	
@@ -313,7 +246,7 @@ public class FlexClass implements GeneratedClass {
 		Iterator i = constants.iterator();
 		while(i.hasNext()) {
 			Constant c = (Constant)i.next();
-			code.append(indent(c.toFlexCode()));
+			code.append(indent(c.toJavascriptCode()));
 			if(!i.hasNext())
 				addEmtyRow(code);
 		}
@@ -328,14 +261,14 @@ public class FlexClass implements GeneratedClass {
 	}
 
 	private void addBindable(StringBuffer code) {
-		indentionLevel=1;
-		code.append(indent("[Bindable]"));
+		//indentionLevel=1;
+		//code.append(indent("[Bindable]"));
 	}
 
 	private void addRemoteClass(StringBuffer code) {
-		indentionLevel=1;
+		/*indentionLevel=1;
 		if(remoteClassPackageName!=null)
-			code.append(indent("[RemoteClass(alias=\""+remoteClassPackageName+"."+className+"\")]"));
+			code.append(indent("[RemoteClass(alias=\""+remoteClassPackageName+"."+className+"\")]")); */
 	}
 
 	private void addAnnotations(StringBuffer code) {
@@ -351,16 +284,10 @@ public class FlexClass implements GeneratedClass {
 		code.append(indent("}"));
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#getSuperClassName()
-	 */
 	public String getSuperClassName() {
 		return superClassName;
 	}
 
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#setSuperClassName(java.lang.String)
-	 */
 	public void setSuperClassName(String superClassName) {
 		this.superClassName = superClassName;
 	}
@@ -369,11 +296,17 @@ public class FlexClass implements GeneratedClass {
 		StringBuffer sb=new StringBuffer();
 		addAnnotations(sb);
 		StringBuffer sb2 = new StringBuffer();
-		sb2.append("public class "+className);
-		if(superClassName!=null && !"Object".equals(superClassName))
-			sb2.append(" extends "+superClassName);
-
+		sb2.append("function "+className+"()");
+		
 		sb2.append(" {");
+		
+		if(superClassName!=null && !"Object".equals(superClassName)) {
+			sb2.append(format.lineTerminator);
+			indentionLevel=2;
+			sb2.append(indent(superClassName+"()"));
+			indentionLevel=1;
+		}
+
 		sb.append(indent(sb2.toString()));
 		
 		return sb.toString();
@@ -408,30 +341,18 @@ public class FlexClass implements GeneratedClass {
 		sb.append(format.lineTerminator);
 	}
 
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#getRemoteClassPackageName()
-	 */
 	public String getRemoteClassPackageName() {
 		return remoteClassPackageName;
 	}
 
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#setRemoteClassPackageName(java.lang.String)
-	 */
 	public void setRemoteClassPackageName(String remoteClassName) {
 		this.remoteClassPackageName = remoteClassName;
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#clearConstructorParameters()
-	 */
 	public void clearConstructorParameters() {
 		constructorParameters.clear();
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.language_elements.GeneratedClass#applyRefactoring()
-	 */
 	public void applyRefactoring() {
 		Iterator i = imports.iterator();
 		while(i.hasNext()) {

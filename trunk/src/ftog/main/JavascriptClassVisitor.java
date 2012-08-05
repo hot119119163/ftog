@@ -39,33 +39,30 @@ import org.apache.log4j.Logger;
 
 import ftog.language_elements.Constant;
 import ftog.language_elements.FlexClass;
-import ftog.language_elements.GeneratedClass;
 import ftog.language_elements.Import;
+import ftog.language_elements.JavascriptClass;
 import ftog.language_elements.Property;
 import ftog.visitor.BaseVisitor;
 
 
-public class ClassVisitor extends BaseVisitor implements IClassVisitor {
+public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor {
 	private Logger log;
 	private HashMap getters;
 	private HashMap setters;
 	private JavaToFlexClassConverter converter;
 	private HashSet classIgnoreList;
 
-	private GeneratedClass flexClass;
+	private JavascriptClass flexClass;
 	
-	public ClassVisitor() {
-		log = Logger.getLogger(ClassVisitor.class);
-		flexClass = new FlexClass();
+	public JavascriptClassVisitor() {
+		log = Logger.getLogger(JavascriptClassVisitor.class);
+		flexClass = new JavascriptClass();
 		getters = new HashMap();
 		setters = new HashMap();
 		converter = new JavaToFlexClassConverter();
 	}
 	
-	/* (non-Javadoc)
-	 * @see ftog.main.IClassVisitor#getFlexClass()
-	 */
-	public GeneratedClass getGeneratedClass() {
+	public JavascriptClass getGeneratedClass() {
 		return flexClass;
 	}
 	
@@ -283,16 +280,10 @@ public class ClassVisitor extends BaseVisitor implements IClassVisitor {
 	   return name;
    }
 
-/* (non-Javadoc)
- * @see ftog.main.IClassVisitor#getClassIgnoreList()
- */
 public HashSet getClassIgnoreList() {
 	return classIgnoreList;
 }
 
-/* (non-Javadoc)
- * @see ftog.main.IClassVisitor#setClassIgnoreList(java.util.HashSet)
- */
 public void setClassIgnoreList(HashSet classIgnoreList) {
 	this.classIgnoreList = classIgnoreList;
 }

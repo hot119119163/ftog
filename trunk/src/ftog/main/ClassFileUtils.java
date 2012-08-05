@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Mattias Ånstrand.
+ * Copyright (C) 2008 Mattias ï¿½nstrand.
  * 
  * This file is part of Flex DTO Generator.
  *
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
@@ -31,6 +32,8 @@ import org.apache.log4j.Logger;
 		
 		private File destDir;
 		private Logger log;
+		
+		private static int jsFilesWritten=0;
 		
 		public ClassFileUtils() {
 			log = Logger.getLogger(ClassFileUtils.class);
@@ -53,6 +56,37 @@ import org.apache.log4j.Logger;
 				File g = new File(destDir, directory+File.separator+className+".as");
 				
 				return new OutputStreamWriter(new FileOutputStream(g), "UTF-8");
+				}
+				catch(Exception e){
+					e.printStackTrace();
+					return null;
+				}
+			}
+			
+			public Writer createDirectoriesAndOpenStreamJS(String packageName, String className) throws IOException {
+				try {
+				String replacement;
+				if("\\".equals(File.separator))
+					replacement = "\\\\";
+				else
+					replacement = "/";
+				
+				String packageDir = packageName;
+				log.debug("Package dir:"+packageDir);
+				String directory = File.separator+packageDir;
+				File f = new File(destDir, directory);
+				log.debug("creating dir:"+f.mkdirs());
+				log.debug("dir:"+destDir.toString());
+				File f2 = new File(destDir, directory+File.separator+"classes.js");
+				RandomAccessFile g = new RandomAccessFile(f2, "rw");
+				if(jsFilesWritten==0)
+					g.setLength(0);
+
+				g.seek(g.length());
+				
+				jsFilesWritten++;
+				
+				return new OutputStreamWriter(new FileOutputStream(g.getFD()), "UTF-8");
 				}
 				catch(Exception e){
 					e.printStackTrace();

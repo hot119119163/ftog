@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Mattias Ånstrand.
+ * Copyright (C) 2008 Mattias ï¿½nstrand.
  * 
  * This file is part of Flex DTO Generator.
  *
@@ -62,6 +62,23 @@ public class Property implements Comparable {
 		
 		return sb.toString();
 	}
+	
+	public String toJavascriptCode() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("this.");
+		sb.append(name);
+		if(initValue!=null)
+			sb.append('=').append(initValue);
+		
+		if(arrayComment!=null) {
+			sb.append("; //"+arrayComment);	
+		}
+		else
+			sb.append(";");
+		
+		return sb.toString();
+	}
+	
 	public boolean equals(Object o) {
 		if(!(o instanceof Property))
 			return false;

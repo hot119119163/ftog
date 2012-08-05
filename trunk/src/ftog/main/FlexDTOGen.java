@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Mattias Ånstrand.
+ * Copyright (C) 2008 Mattias ï¿½nstrand.
  * 
  * This file is part of Flex DTO Generator.
  *
@@ -37,7 +37,7 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
-import ftog.language_elements.FlexClass;
+import ftog.language_elements.GeneratedClass;
 
 
 public class FlexDTOGen {
@@ -50,6 +50,7 @@ public class FlexDTOGen {
 	private String fromDir;
 	private HashSet ignoreList;
 	private boolean createConstructor;
+	private boolean createJS;
 	
 	public FlexDTOGen() {
 		log = Logger.getLogger(FlexDTOGen.class);
@@ -72,17 +73,26 @@ public class FlexDTOGen {
 		return iss;
  	}
 	
+	public void generateJavascript(boolean js) {
+		createJS = js;
+	}
+	
 	
 	private void translateClasses(Collection files) throws IOException, ParseException {
 		Iterator it = files.iterator();
 		while(it.hasNext()) {
 			InputStream is = (InputStream)it.next();
 			
-			ClassVisitor cv = new ClassVisitor();
+			IClassVisitor cv;
+			if(!createJS) {
+				cv = new ClassVisitor();
+			}
+			else {
+				cv = new JavascriptClassVisitor();
+			}
 			cv.setClassIgnoreList(ignoreList);
 			processJavaFile(is, cv);
-			
-			FlexClass fc = cv.getFlexClass();
+			GeneratedClass fc = cv.getGeneratedClass();
 			fc.expandImports(fromDir);
 			cv=null;
 			fc.sortProprties();
