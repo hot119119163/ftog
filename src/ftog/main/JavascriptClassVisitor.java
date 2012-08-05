@@ -152,7 +152,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
         	converter.convert(p, f);
         	log.debug("field type:"+p.flexClass);
         	log.debug("Adding property:"+p.name);
-        	flexClass.addProperty(p);   
+        //	flexClass.addProperty(p);   
     	}
     }
 
