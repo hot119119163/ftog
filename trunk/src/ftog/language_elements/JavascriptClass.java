@@ -114,6 +114,7 @@ public class JavascriptClass implements GeneratedClass {
 	//	this.format = format;
 		StringBuffer code = new StringBuffer();
 		addConstants(code);
+		addJavaClassProperty(code);
 		addProperties(code);
 		//addConstructor(code);
 		addClassDeclaration(code);
@@ -121,7 +122,7 @@ public class JavascriptClass implements GeneratedClass {
 			insertEmtyRow(code);
 			addImports(code);
 		}*/
-	//	insertEmtyRow(code);
+		insertEmtyRow(code);
 	//	addPackageDeclaration(code);
 		return code.toString();
 	}
@@ -284,6 +285,11 @@ public class JavascriptClass implements GeneratedClass {
 		code.append(indent("}"));
 	}
 	
+	private void addJavaClassProperty(StringBuffer code) {
+		indentionLevel=2;
+		code.append(indent("this.javaClass=\""+packageName+"."+className+"\";"));
+	}
+	
 	public String getSuperClassName() {
 		return superClassName;
 	}
@@ -303,7 +309,7 @@ public class JavascriptClass implements GeneratedClass {
 		if(superClassName!=null && !"Object".equals(superClassName)) {
 			sb2.append(format.lineTerminator);
 			indentionLevel=2;
-			sb2.append(indent(superClassName+"()"));
+			sb2.append(indent(superClassName+"();"));
 			indentionLevel=1;
 		}
 
