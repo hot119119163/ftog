@@ -28,7 +28,6 @@ import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.VariableDeclarator;
-import japa.parser.ast.visitor.VoidVisitor;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,7 +37,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import ftog.language_elements.Constant;
-import ftog.language_elements.FlexClass;
 import ftog.language_elements.Import;
 import ftog.language_elements.JavascriptClass;
 import ftog.language_elements.Property;
@@ -52,18 +50,18 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 	private JavaToFlexClassConverter converter;
 	private HashSet classIgnoreList;
 
-	private JavascriptClass flexClass;
+	private JavascriptClass javascriptClass;
 	
 	public JavascriptClassVisitor() {
 		log = Logger.getLogger(JavascriptClassVisitor.class);
-		flexClass = new JavascriptClass();
+		javascriptClass = new JavascriptClass();
 		getters = new HashMap();
 		setters = new HashMap();
 		converter = new JavaToFlexClassConverter();
 	}
 	
 	public JavascriptClass getGeneratedClass() {
-		return flexClass;
+		return javascriptClass;
 	}
 	
 	public void visit(PackageDeclaration n, Object o) {
@@ -72,8 +70,8 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 		NameVisitor nv = new NameVisitor();
 		nv.visit(n.name, null);
 		log.debug("PackageDeclaration:"+nv.getName());
-		flexClass.setRemoteClassPackageName(nv.getName());
-		flexClass.setPackage(nv.getName());
+		javascriptClass.setRemoteClassPackageName(nv.getName());
+		javascriptClass.setPackage(nv.getName());
 	}
 
 	public void visit(ImportDeclaration n, Object o) {
@@ -93,13 +91,13 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 			return;
 		if(name.startsWith("java.util.")) {
 			if(!name.endsWith("Date"))
-				flexClass.addImport(new Import("mx.collections.ArrayCollection"));
+				javascriptClass.addImport(new Import("mx.collections.ArrayCollection"));
 			
 			return;
 		}
 		
 
-		flexClass.addImport(new Import(name));
+		javascriptClass.addImport(new Import(name));
 	}
 	
 	public void visit(ClassOrInterfaceDeclaration c, Object o) {
@@ -107,7 +105,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 			return;
 		
 		String className = c.name;
-		String fullName = flexClass.getRemoteClassPackageName()+"."+className;
+		String fullName = javascriptClass.getRemoteClassPackageName()+"."+className;
 		if(classIgnoreList.contains(fullName)) {
 			log.info("Ignoring: "+fullName);
 			return;
@@ -115,7 +113,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 		else
 			log.info("Parsing: "+fullName);
 		
-		flexClass.setClassName(converter.convertClassClass(className));
+		javascriptClass.setClassName(converter.convertClassClass(className));
 		
 		//We are only interested in first element of extendsList since the rest
 		//only applies for interfaces.
@@ -123,7 +121,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 		if(c.extendsList!=null && c.extendsList.size()==1)
 			extendsClassName= c.extendsList.get(0).name; 
 		log.debug("extends ClassName:"+extendsClassName);
-		flexClass.setSuperClassName(converter.convertClassClass(extendsClassName));
+		javascriptClass.setSuperClassName(converter.convertClassClass(extendsClassName));
 		
 		super.visit(c, null);
 	}
@@ -152,7 +150,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
         	converter.convert(p, f);
         	log.debug("field type:"+p.flexClass);
         	log.debug("Adding property:"+p.name);
-        //	flexClass.addProperty(p);   
+        	javascriptClass.addProperty(p);
     	}
     }
 
@@ -171,7 +169,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
         		c.value=c.value.toString().replaceAll("[lfdLFD]", "");
         	
         	log.debug("Adding constant property:"+c.name);
-        	flexClass.addConstant(c);   
+        	javascriptClass.addConstant(c);
     	}
     }
     
@@ -191,7 +189,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
     		prop.javaClass=p.type.toString();
     		prop.name=p.id.name;
     		prop.flexClass=converter.convertClassClass(prop.javaClass);
-    		flexClass.addContructorParameter(prop);
+    		javascriptClass.addContructorParameter(prop);
     	}
     }
     
@@ -229,7 +227,7 @@ public class JavascriptClassVisitor extends BaseVisitor implements IClassVisitor
 		  Property getter = (Property)getters.get(p.name);
 		  Property setter = (Property)setters.get(p.name);
 		  if(getter!=null && setter !=null && getter.equals(setter)) {			
-			  flexClass.addProperty(getter);
+			  javascriptClass.addProperty(getter);
 			  log.debug("Adding property:"+p.name);
 		   }
 		   
