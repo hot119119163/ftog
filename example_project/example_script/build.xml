@@ -12,7 +12,7 @@
 			refactorfrom="example." refactorto="com.acme.example."
             createconstructor="true"
 			generatejavascript="true">
-			<fileset dir="dto_src2" excludes="**/*Test.java" includes="**/*.java" />
+			<fileset dir="dto_src" excludes="**/*Test.java" includes="**/*.java" />
 		</ftog>
 	</target>
 </project>

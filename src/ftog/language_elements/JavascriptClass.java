@@ -82,6 +82,7 @@ public class JavascriptClass implements GeneratedClass {
 	}
 	
 	public void addConstant(Constant c) {
+
 		constants.add(c);
 	}
 	
@@ -247,7 +248,7 @@ public class JavascriptClass implements GeneratedClass {
 		Iterator i = constants.iterator();
 		while(i.hasNext()) {
 			Constant c = (Constant)i.next();
-			code.append(indent(c.toJavascriptCode()));
+			code.append(indent(className+'.'+c.toJavascriptCode()));
 			if(!i.hasNext())
 				addEmtyRow(code);
 		}
